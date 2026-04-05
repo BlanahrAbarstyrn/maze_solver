@@ -40,8 +40,6 @@ class Cell():
         self.__y1 = y1
         self.__y2 = y2
 
-        # [320.0, 220.0, 340.0, 220.0]
-
         if self.has_left_wall:
             line = Line(Point(self.__x1, self.__y1), Point(self.__x1, self.__y2))
             self.__win.draw_line(line)

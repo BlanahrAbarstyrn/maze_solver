@@ -55,12 +55,14 @@ class Maze():
         j = y1
         while i < self.__num_cols * self.__cell_size + x1:
             while j < self.__num_rows * self.__cell_size + y1:
+                i2 = i + self.__cell_size
                 j2 = j + self.__cell_size
-                self.__cells.append([i, j, i + self.__cell_size, j2])
+                self.__cells.append([i, j, i2, j2])
                 j += self.__cell_size
             i += self.__cell_size
             j = y1
         #print(self.__cells)
+        #print(len(self.__cells))
         self.__draw_cell()
 
 
@@ -85,7 +87,7 @@ class Maze():
         if self.__win is None:
             return
         self.__win.redraw()
-        time.sleep(0.01)
+        time.sleep(0.005)
     
 
     def __get_grid_width(self):
