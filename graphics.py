@@ -19,7 +19,7 @@ class Line():
 
 
 class Cell():
-    def __init__(self, win):
+    def __init__(self, win = None):
         self.has_left_wall = True
         self.has_right_wall = True
         self.has_top_wall = True
@@ -40,6 +40,8 @@ class Cell():
         self.__y1 = y1
         self.__y2 = y2
 
+        # [320.0, 220.0, 340.0, 220.0]
+
         if self.has_left_wall:
             line = Line(Point(self.__x1, self.__y1), Point(self.__x1, self.__y2))
             self.__win.draw_line(line)
@@ -55,6 +57,8 @@ class Cell():
     
 
     def draw_move(self, to_cell, undo=False):
+        if self.__win is None:
+            return
         half_length = abs(self.__x2 - self.__x1) // 2
         x_center = half_length + self.__x1
         y_center = half_length + self.__y1

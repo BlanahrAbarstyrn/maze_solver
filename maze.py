@@ -9,7 +9,7 @@ class Maze():
         num_rows,
         num_cols,
         cell_size,
-        win,
+        win = None,
     ):
         self.__num_rows = num_rows
         self.__num_cols = num_cols
@@ -26,8 +26,21 @@ class Maze():
     def __create_cells(self):
         if self.__win is None:
             return
-        gridWidth = self.__num_cols * self.__cell_size
-        gridHeight = self.__num_rows * self.__cell_size
+        
+        gridWidth = self.__get_grid_width()
+        gridHeight = self.__get_grid_height()
+
+        if gridWidth > self.__win.width or gridHeight > self.__win.height:
+            calc_new_cell_size_col = (self.__win.width - 40) / self.__num_cols
+            calc_new_cell_size_row = (self.__win.height - 40) / self.__num_rows
+            if calc_new_cell_size_col < calc_new_cell_size_row:
+                self.__cell_size = calc_new_cell_size_col
+                gridWidth = self.__get_grid_width()
+                gridHeight = self.__get_grid_height()
+            else:
+                self.__cell_size = calc_new_cell_size_row
+                gridWidth = self.__get_grid_width()
+                gridHeight = self.__get_grid_height()
 
         W1 = self.__win.width / 2
         H1 = self.__win.height / 2
@@ -72,5 +85,12 @@ class Maze():
         if self.__win is None:
             return
         self.__win.redraw()
-        time.sleep(0.05)
+        time.sleep(0.01)
+    
 
+    def __get_grid_width(self):
+        return self.__num_cols * self.__cell_size
+
+
+    def __get_grid_height(self):
+        return self.__num_rows * self.__cell_size
