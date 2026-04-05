@@ -64,8 +64,7 @@ class Maze():
             y2 = self.__cells[i][3]
             self.__justdDrawAlready.draw(x1,y1,x2,y2)
             i += 1
-
-        self.__animate()
+            self.__animate()
 
 
 
