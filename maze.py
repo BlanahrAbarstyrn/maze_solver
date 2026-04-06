@@ -1,3 +1,4 @@
+from window import Window
 from graphics import Cell
 import random
 import time
@@ -17,6 +18,7 @@ class Maze():
         self.__win = win
 
         self.__cells = []
+        self.__last_cell = self.__num_rows * self.__num_cols - 1
 
         self.__justdDrawAlready = Cell(win)
 
@@ -80,6 +82,8 @@ class Maze():
             self.__justdDrawAlready.draw(x1,y1,x2,y2)
             i += 1
             self.__animate()
+        
+        self.__break_entrance_and_exit()
 
 
 
@@ -96,3 +100,15 @@ class Maze():
 
     def __get_grid_height(self):
         return self.__num_rows * self.__cell_size
+
+
+    def __break_entrance_and_exit(self):
+        for cell in self.__cells:
+            if cell is self.__cells[0]:
+                self.__justdDrawAlready.has_top_wall = False
+                self.__justdDrawAlready.draw(cell[0],cell[1],cell[2],cell[3])
+            self.__justdDrawAlready.has_top_wall = True
+            if cell is self.__cells[self.__last_cell]:
+                self.__justdDrawAlready.has_bottom_wall = False
+                self.__justdDrawAlready.draw(cell[0],cell[1],cell[2],cell[3])
+            self.__justdDrawAlready.has_bottom_wall = True
