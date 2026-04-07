@@ -1,5 +1,4 @@
-from window import Window
-from graphics import Cell
+from cell import Cell
 import random
 import time
 
@@ -9,106 +8,66 @@ class Maze():
         self,
         num_rows,
         num_cols,
-        cell_size,
         win = None,
+        seed = None
     ):
         self.__num_rows = num_rows
         self.__num_cols = num_cols
-        self.__cell_size = cell_size
         self.__win = win
 
         self.__cells = []
-        self.__last_cell = self.__num_rows * self.__num_cols - 1
-
-        self.__justdDrawAlready = Cell(win)
 
         self.__create_cells()
+        self.__break_entrance_and_exit()
     
 
     def __create_cells(self):
+        for i in range(self.__num_cols):
+            col_cells = []
+            for j in range(self.__num_rows):
+                col_cells.append(Cell(self.__win))
+            self.__cells.append(col_cells)
+        for i in range(self.__num_cols):
+            for j in range(self.__num_rows):
+                self.__draw_cell(i, j)
+
+
+    def __draw_cell(self, i, j):
         if self.__win is None:
             return
         
-        gridWidth = self.__get_grid_width()
-        gridHeight = self.__get_grid_height()
+        margin = 64
+        grid_width = self.__win.width - margin
+        grid_height = self.__win.height - margin
 
-        if gridWidth > self.__win.width or gridHeight > self.__win.height:
-            calc_new_cell_size_col = (self.__win.width - 40) / self.__num_cols
-            calc_new_cell_size_row = (self.__win.height - 40) / self.__num_rows
-            if calc_new_cell_size_col < calc_new_cell_size_row:
-                self.__cell_size = calc_new_cell_size_col
-                gridWidth = self.__get_grid_width()
-                gridHeight = self.__get_grid_height()
-            else:
-                self.__cell_size = calc_new_cell_size_row
-                gridWidth = self.__get_grid_width()
-                gridHeight = self.__get_grid_height()
+        gw_c_size = grid_width / self.__num_cols
+        gh_c_size = grid_height / self.__num_rows
 
-        W1 = self.__win.width / 2
-        H1 = self.__win.height / 2
-        W2 = gridWidth / 2
-        H2 = gridHeight / 2
+        win_w = self.__win.width / 2
+        win_h = self.__win.height / 2
+        grid_w = grid_width / 2
+        grid_h = grid_height / 2
 
-        x1 = W1 - W2
-        y1 = H1 - H2
+        start_point_x1 = win_w - grid_w
+        start_point_y1 = win_h - grid_h
 
-
-        i = x1
-        j = y1
-        while i < self.__num_cols * self.__cell_size + x1:
-            while j < self.__num_rows * self.__cell_size + y1:
-                i2 = i + self.__cell_size
-                j2 = j + self.__cell_size
-                self.__cells.append([i, j, i2, j2])
-                j += self.__cell_size
-            i += self.__cell_size
-            j = y1
-        #print(self.__cells)
-        #print(len(self.__cells))
-        self.__draw_cell()
-
-
-
-    def __draw_cell(self):
-        if self.__win is None:
-            return
-        
-        i = 0
-        while i < len(self.__cells):
-            x1 = self.__cells[i][0]
-            y1 = self.__cells[i][1]
-            x2 = self.__cells[i][2]
-            y2 = self.__cells[i][3]
-            self.__justdDrawAlready.draw(x1,y1,x2,y2)
-            i += 1
-            self.__animate()
-        
-        self.__break_entrance_and_exit()
-
+        x1 = start_point_x1 + i * gw_c_size
+        y1 = start_point_y1 + j * gh_c_size
+        x2 = x1 + gw_c_size
+        y2 = y1 + gh_c_size
+        self.__cells[i][j].draw(x1, y1, x2, y2)
+        self.__animate()
 
 
     def __animate(self):
         if self.__win is None:
             return
         self.__win.redraw()
-        time.sleep(0.005)
+        time.sleep(0.0005)
     
 
-    def __get_grid_width(self):
-        return self.__num_cols * self.__cell_size
-
-
-    def __get_grid_height(self):
-        return self.__num_rows * self.__cell_size
-
-
     def __break_entrance_and_exit(self):
-        for cell in self.__cells:
-            if cell is self.__cells[0]:
-                self.__justdDrawAlready.has_top_wall = False
-                self.__justdDrawAlready.draw(cell[0],cell[1],cell[2],cell[3])
-            self.__justdDrawAlready.has_top_wall = True
-            if cell is self.__cells[self.__last_cell]:
-                self.__justdDrawAlready.has_bottom_wall = False
-                self.__justdDrawAlready.draw(cell[0],cell[1],cell[2],cell[3])
-            self.__justdDrawAlready.has_bottom_wall = True
+        self.__cells[0][0].has_top_wall = False
+        self.__draw_cell(0, 0)
+        self.__cells[self.__num_cols - 1][self.__num_rows - 1].has_bottom_wall = False
+        self.__draw_cell(self.__num_cols - 1, self.__num_rows - 1)

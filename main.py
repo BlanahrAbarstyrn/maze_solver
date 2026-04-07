@@ -3,14 +3,13 @@ from maze import Maze
 
 
 def main():
-    num_rows = 10
-    num_cols = 20
-    screen_x = 800
-    screen_y = 600
-    cell_size = 100
+    num_rows = 30
+    num_cols = 60
+    screen_x = 1600
+    screen_y = 900
     win = Window(screen_x, screen_y)
 
-    Maze(num_rows, num_cols, cell_size, win)
+    Maze(num_rows, num_cols, win)
 
     win.wait_for_close()
 

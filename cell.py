@@ -1,21 +1,4 @@
-
-
-class Point():
-    def __init__(self, x_coord, y_coord):
-        self.x = x_coord
-        self.y = y_coord
-
-
-class Line():
-    def __init__(self, point_1, point_2):
-        self.p1 = point_1
-        self.p2 = point_2
-    
-
-    def draw(self, tk_canvas, fill_color="black"):
-        tk_canvas.create_line(
-        self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2
-)
+from window import Line, Point
 
 
 class Cell():
@@ -30,6 +13,8 @@ class Cell():
         self.__y1 = -1
         self.__y2 = -1
         self.__win = win
+
+        self.visited = False
     
 
     def draw(self, x1, y1, x2, y2):
@@ -41,31 +26,31 @@ class Cell():
         self.__y2 = y2
 
         if self.has_left_wall:
-            line = Line(Point(self.__x1, self.__y1), Point(self.__x1, self.__y2))
+            line = Line(Point(x1, y1), Point(x1, y2))
             self.__win.draw_line(line)
         else:
-            line = Line(Point(self.__x1, self.__y1), Point(self.__x1, self.__y2))
+            line = Line(Point(x1, y1), Point(x1, y2))
             self.__win.draw_line(line, fill_color="white")
 
         if self.has_top_wall:
-            line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
+            line = Line(Point(x1, y1), Point(x2, y1))
             self.__win.draw_line(line)
         else:
-            line = Line(Point(self.__x1, self.__y1), Point(self.__x2, self.__y1))
+            line = Line(Point(x1, y1), Point(x2, y1))
             self.__win.draw_line(line, fill_color="white")
 
         if self.has_right_wall:
-            line = Line(Point(self.__x2, self.__y1), Point(self.__x2, self.__y2))
+            line = Line(Point(x2, y1), Point(x2, y2))
             self.__win.draw_line(line)
         else:
-            line = Line(Point(self.__x2, self.__y1), Point(self.__x2, self.__y2))
+            line = Line(Point(x2, y1), Point(x2, y2))
             self.__win.draw_line(line, fill_color="white")
 
         if self.has_bottom_wall:
-            line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
+            line = Line(Point(x1, y2), Point(x2, y2))
             self.__win.draw_line(line)
         else:
-            line = Line(Point(self.__x1, self.__y2), Point(self.__x2, self.__y2))
+            line = Line(Point(x1, y2), Point(x2, y2))
             self.__win.draw_line(line, fill_color="white")
     
 

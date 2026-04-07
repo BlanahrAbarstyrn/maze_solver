@@ -37,3 +37,21 @@ class Window:
 
     def draw_line(self, Line, fill_color="black"):
         Line.draw(self.__canvas, fill_color)
+
+
+class Point():
+    def __init__(self, x_coord, y_coord):
+        self.x = x_coord
+        self.y = y_coord
+
+
+class Line():
+    def __init__(self, point_1, point_2):
+        self.p1 = point_1
+        self.p2 = point_2
+    
+
+    def draw(self, tk_canvas, fill_color="black"):
+        tk_canvas.create_line(
+        self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2
+)
