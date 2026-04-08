@@ -19,6 +19,9 @@ class Maze():
 
         self.__create_cells()
         self.__break_entrance_and_exit()
+
+        if seed != None:
+            random.seed(seed)
     
 
     def __create_cells(self):
@@ -71,3 +74,45 @@ class Maze():
         self.__draw_cell(0, 0)
         self.__cells[self.__num_cols - 1][self.__num_rows - 1].has_bottom_wall = False
         self.__draw_cell(self.__num_cols - 1, self.__num_rows - 1)
+    
+
+    def __break_walls_r(self, i, j):
+        # mark current cell visited
+        self.__cells[i][j].visited = True
+
+        while True:
+
+            # build list of unvisited neighbors
+            unvisited_neighbor_cells = []
+
+            # left   (i - 1, j)
+            # right  (i + 1, j)
+            # up     (i, j - 1)
+            # down   (i, j + 1)
+
+            if i - 1 >= 0 and self.__cells[i - 1][j].visited == False:
+                unvisited_neighbor_cells.append((i - 1, j))
+            if i + 1 <= self.__num_cols - 1 and self.__cells[i + 1][j].visited == False:
+                unvisited_neighbor_cells.append((i + 1, j))
+            if j - 1 >= 0 and self.__cells[i][j - 1].visited == False:
+                unvisited_neighbor_cells.append((i, j - 1))
+            if j + 1 <= self.__num_rows - 1 and self.__cells[i][j + 1].visited == False:
+                unvisited_neighbor_cells.append((i, j + 1))
+
+            # if none, draw and return
+            if unvisited_neighbor_cells == []:
+                self.__draw_cell(i, j)
+                return
+            
+            # choose one random neighbor
+            # random.randrange(start, stop[, step])
+
+            index_choice = random.randrange(len(unvisited_neighbor_cells))
+            next_cell = unvisited_neighbor_cells[index_choice]
+
+            # remove walls between current cell and neighbor
+            
+
+
+            self.__cells[i][j].has_right_wall = False
+            # 6. recurse into neighbor
