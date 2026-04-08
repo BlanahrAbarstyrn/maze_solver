@@ -11,7 +11,9 @@ class Maze():
         win = None,
         seed = None
     ):
-        
+        # if statement needed to be moved above
+        # calling other methods, otherwise the
+        # seed could not be made static for testing
         if seed is not None:
             random.seed(seed)
         
@@ -40,21 +42,30 @@ class Maze():
         if self.__win is None:
             return
         
+        # Not part of guided project
+        # Find maximum size of grid less margin
         margin = 64
         grid_width = self.__win.width - margin
         grid_height = self.__win.height - margin
 
+        # find maximum cell size
+        # (guided project had cell size as a predetermined fixed value)
         gw_c_size = grid_width / self.__num_cols
         gh_c_size = grid_height / self.__num_rows
 
+        # have maze grid utilize the full window and be centered
+        # find center of window
         win_w = self.__win.width / 2
         win_h = self.__win.height / 2
+        # find center of grid
         grid_w = grid_width / 2
         grid_h = grid_height / 2
 
+        # subtract to find the x/y starting point for cell 0,0
         start_point_x1 = win_w - grid_w
         start_point_y1 = win_h - grid_h
 
+        # logic to send to the draw method to create full grid
         x1 = start_point_x1 + i * gw_c_size
         y1 = start_point_y1 + j * gh_c_size
         x2 = x1 + gw_c_size
@@ -67,6 +78,8 @@ class Maze():
         if self.__win is None:
             return
         self.__win.redraw()
+        # may need to set up conditionals for timer to speed up
+        # or slow down based on the grid size
         time.sleep(0.0005)
     
 
@@ -113,11 +126,17 @@ class Maze():
             
             # choose one random neighbor
             # random.randrange(start, stop[, step])
-
+            # Python interprets below as random.randrange(0, len(unvisted_neighbor_cells)), step is optional
             index_choice = random.randrange(len(unvisited_neighbor_cells))
             next_cell = unvisited_neighbor_cells[index_choice]
+            #print(next_cell)
 
-            # remove walls between current cell and neighbor           
+            # remove walls between current cell and neighbor
+
+            # next_cell is a tuple, so to access the values use [0] and [1]
+            # next_cell does not have .has_xxx_wall access, so must use self.__cells
+            # to access next_cell's location
+
             # did we move left?
             if next_cell[0] < i and next_cell[1] == j:
                 self.__cells[i - 1][j].has_right_wall = False
