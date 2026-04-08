@@ -11,6 +11,10 @@ class Maze():
         win = None,
         seed = None
     ):
+        
+        if seed is not None:
+            random.seed(seed)
+        
         self.__num_rows = num_rows
         self.__num_cols = num_cols
         self.__win = win
@@ -20,9 +24,6 @@ class Maze():
         self.__create_cells()
         self.__break_entrance_and_exit()
 
-        if seed != None:
-            random.seed(seed)
-    
 
     def __create_cells(self):
         for i in range(self.__num_cols):
@@ -74,11 +75,17 @@ class Maze():
         self.__draw_cell(0, 0)
         self.__cells[self.__num_cols - 1][self.__num_rows - 1].has_bottom_wall = False
         self.__draw_cell(self.__num_cols - 1, self.__num_rows - 1)
+
+        self.__break_walls_r(0, 0)
     
 
     def __break_walls_r(self, i, j):
         # mark current cell visited
         self.__cells[i][j].visited = True
+
+        #print(type(self.__cells[i + 1][j]))
+        #print(dir(self.__cells[i + 1][j]))
+
 
         while True:
 
@@ -110,9 +117,27 @@ class Maze():
             index_choice = random.randrange(len(unvisited_neighbor_cells))
             next_cell = unvisited_neighbor_cells[index_choice]
 
-            # remove walls between current cell and neighbor
-            
+            # remove walls between current cell and neighbor           
+            # did we move left?
+            if next_cell[0] < i and next_cell[1] == j:
+                self.__cells[i - 1][j].has_right_wall = False
+                self.__cells[i][j].has_left_wall = False
 
+            # did we move right?
+            if next_cell[0] > i and next_cell[1] == j:
+                self.__cells[i + 1][j].has_left_wall = False
+                self.__cells[i][j].has_right_wall = False
 
-            self.__cells[i][j].has_right_wall = False
-            # 6. recurse into neighbor
+            # did we move up?
+            if next_cell[1] < j and next_cell[0] == i:
+                self.__cells[i][j - 1].has_bottom_wall = False
+                self.__cells[i][j].has_top_wall = False
+
+            # did we move down?
+            if next_cell[1] > j and next_cell[0] == i:
+                self.__cells[i][j + 1].has_top_wall = False
+                self.__cells[i][j].has_bottom_wall = False
+
+            # recurse into neighbor
+            self.__break_walls_r(next_cell[0], next_cell[1])
+

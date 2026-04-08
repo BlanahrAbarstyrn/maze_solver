@@ -13,8 +13,9 @@ class Cell():
         self.__y1 = -1
         self.__y2 = -1
         self.__win = win
-
-        visited = False
+        #print("Cell init running")
+        self.visited = False
+        #print("visited exists?", hasattr(self, "visited"))
     
 
     def draw(self, x1, y1, x2, y2):
