@@ -119,9 +119,10 @@ class Maze():
             if j + 1 <= self.__num_rows - 1 and self.__cells[i][j + 1].visited == False:
                 unvisited_neighbor_cells.append((i, j + 1))
 
-            # if none, draw and return
+            # if none, draw, reset visited to False, and return
             if unvisited_neighbor_cells == []:
                 self.__draw_cell(i, j)
+                self.__reset_cells_visited()
                 return
             
             # choose one random neighbor
@@ -160,3 +161,7 @@ class Maze():
             # recurse into neighbor
             self.__break_walls_r(next_cell[0], next_cell[1])
 
+
+
+    def __reset_cells_visited(self):
+        self.visited = False
