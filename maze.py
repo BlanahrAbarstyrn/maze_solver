@@ -165,3 +165,20 @@ class Maze():
 
     def __reset_cells_visited(self):
         self.visited = False
+
+
+    def solve(self):
+        return self._solve_r(0, 0)
+
+
+    def _solve_r(self, i, j):
+        self.__animate()
+
+        # mark current cell as visited
+        self.__cells[i][j].visited = True
+
+        # if last cell has been reached, return
+        if i == self.__num_cols -1 and j == self.__num_rows -1:
+            return True
+        
+

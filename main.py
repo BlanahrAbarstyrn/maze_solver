@@ -11,7 +11,9 @@ def main():
 
     # change None to a fixed number to have same
     # maze generate every run for testing purposes
-    Maze(num_rows, num_cols, win, None)
+    # or to compare solving algorithms
+    maze = Maze(num_rows, num_cols, win, None)
+    maze.solve()
 
     win.wait_for_close()
 
