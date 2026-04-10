@@ -23,6 +23,7 @@ class Maze():
 
         self.__cells = []
 
+        # keep method calls in __init__ in the order to be called
         self.__create_cells()
         self.__break_entrance_and_exit()
         self.__break_walls_r(0, 0)
@@ -46,9 +47,10 @@ class Maze():
         
         # Not part of guided project
         # Find maximum size of grid less margin
-        margin = 64
-        grid_width = self.__win.width - margin
-        grid_height = self.__win.height - margin
+        side_margins = 128
+        top_bottom_margins = 128
+        grid_width = self.__win.width - side_margins
+        grid_height = self.__win.height - top_bottom_margins
 
         # find maximum cell size
         # (guided project had cell size as a predetermined fixed value)
@@ -192,6 +194,7 @@ class Maze():
 
         # trying left
         if i > 0 and self.__cells[i - 1][j].visited == False and self.__cells[i][j].has_left_wall == False:
+            # "self" entity doing the method call acts as first parameter
             self.__cells[i][j].draw_move(self.__cells[i - 1][j], False)
             if self._solve_r(i - 1, j):
                 return True
