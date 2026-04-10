@@ -11,6 +11,14 @@ def main():
         # change None to a fixed number to have same
         # maze generate every run for testing purposes
         # or to compare solving algorithms
+        if num_rows < 2:
+            num_rows = 2
+        if num_rows > 20:
+            num_rows = 20
+        if num_cols < 2:
+            num_cols = 2
+        if num_cols > 30:
+            num_cols = 30
         maze = Maze(num_rows, num_cols, win, None)
         maze.solve()
 

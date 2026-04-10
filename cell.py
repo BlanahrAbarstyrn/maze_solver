@@ -58,15 +58,11 @@ class Cell():
     def draw_move(self, to_cell, undo=False):
         if self.__win is None:
             return
-        #half_length = abs(self.__x2 - self.__x1) // 2
-        #x_center = half_length + self.__x1
-        #y_center = half_length + self.__y1
+
         x_center = (self.__x1 + self.__x2) // 2
         y_center = (self.__y1 + self.__y2) // 2
 
-        #half_length2 = abs(to_cell.__x2 - to_cell.__x1) // 2
-        #x_center2 = half_length2 + to_cell.__x1
-        #y_center2 = half_length2 + to_cell.__y1
+
         x_center2 = (to_cell.__x1 + to_cell.__x2) // 2
         y_center2 = (to_cell.__y1 + to_cell.__y2) // 2
 
