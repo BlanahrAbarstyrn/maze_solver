@@ -1,6 +1,6 @@
 <h1>Maze Solver</h1>
 
-<p>A visual maze generator and solver built with Python and Tkinter, based on the <a href="https:boot.dev">Boot.dev</a> guided project.</p>
+<p>A visual maze generator and solver built with Python and Tkinter, based on the <a href="https://boot.dev">Boot.dev</a> guided project.</p>
 
 <h2>Features</h2>
 
