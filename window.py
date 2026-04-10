@@ -2,7 +2,7 @@ from tkinter import Tk, BOTH, Canvas, Entry, Button, Label
 
 
 class Window:
-    def __init__(self, width, height):
+    def __init__(self, width, height, on_submit=None):
         self.width = width
         self.height = height
 
@@ -20,6 +20,8 @@ class Window:
 
         self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
+        self.__on_submit = on_submit
+
 
     def add_entry_fields(self):
         # Create Game Title
@@ -32,7 +34,7 @@ class Window:
 
         # Create field labels
         label_rows = Label(self.__root, text="Qty of Rows:", anchor='w', font=('Arial', 12), bg="white", fg="grey")
-        label_cols = Label(self.__root, text="Qty of Columns:", anchor='w', font=('Arial, 12'), bg="white", fg="grey")
+        label_cols = Label(self.__root, text="Qty of Columns:", anchor='w', font=('Arial', 12), bg="white", fg="grey")
         self.__canvas.create_window(90, 865, window=label_rows)
         self.__canvas.create_window(325, 865, window=label_cols)
 
@@ -46,8 +48,8 @@ class Window:
         self.__canvas.create_window(440, 865, window=self.entry_cols)
 
         # Set default values to entry fields
-        self.entry_rows.insert(20, "20")
-        self.entry_cols.insert(30, "30")
+        self.entry_rows.insert(0, "20")
+        self.entry_cols.insert(0, "30")
 
         submit_button = Button(
             self.__root,
@@ -61,8 +63,12 @@ class Window:
     
 
     def get_entry_text(self):
-        print("Rows: ", self.entry_rows.get())
-        print("Columns: ", self.entry_cols.get())
+        rows = int(self.entry_rows.get())
+        cols = int(self.entry_cols.get())
+        if self.__on_submit:
+            self.__canvas.delete("maze")
+            self.__on_submit(rows, cols)
+
 
 
     def redraw(self):
@@ -99,5 +105,6 @@ class Line():
 
     def draw(self, tk_canvas, fill_color="black"):
         tk_canvas.create_line(
-        self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2
+        self.p1.x, self.p1.y, self.p2.x, self.p2.y, fill=fill_color, width=2,
+        tags="maze"
 )
